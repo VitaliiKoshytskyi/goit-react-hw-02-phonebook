@@ -58,3 +58,10 @@ img {
   text-align: center;
 
 }
+button{
+  border-radius: 5px;
+  border: 1px solid red;
+}
+button:focus{
+  background-color: aqua;
+}
