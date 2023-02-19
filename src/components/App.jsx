@@ -3,6 +3,7 @@ import { Component } from 'react';
 import PhonebookSection from './PhonebookSection/PhonebookSection';
 
 import css from './App.module.css';
+import { nanoid } from 'nanoid';
 
 export class App extends Component {
   state = {
@@ -17,15 +18,43 @@ export class App extends Component {
     number: '',
   };
 
+
+  handleChange = (event) => {
+    const name = event.target.name
+    const value = event.target.value
+    this.setState({
+      [name]:value
+    })
+  }
+  
+  handleSubmit = (event) => {
+    event.preventDefault();
+    this.setState(prevState => {
+      const { name, number,contacts} = prevState
+      
+      const newContact = {
+        id: nanoid(),
+        name,
+        number,
+      }
+
+      return {contacts:[...contacts,newContact],name:'',number:''}
+    })
+  }
+
+
   render() {
+const {contacts,name,number}=this.state
+    const element = contacts.map(item => <li key={item.id} className={css.item}>{item.name} : { item.number} <button>Delete</button></li> )
     return (
       <div className={css.App}>
         <PhonebookSection title="Phonebook">
-          <form className={css.form}>
+          <form  onSubmit={this.handleSubmit} className={css.form}>
             <div className={css.formBox}>
               <label>Name</label>
-              <input
+              <input onChange={this.handleChange}
                 className={css.formText}
+                value ={name}
                 type="text"
                 name="name"
                 pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
@@ -35,7 +64,8 @@ export class App extends Component {
             </div>
             <div className={css.formBox}>
               <label>Number</label>
-              <input
+              <input onChange={this.handleChange}
+                value={number}
                 type="tel"
                 name="number"
                 pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
@@ -52,10 +82,7 @@ export class App extends Component {
           <input/>
           </div>
           <ul className={css.list}>
-            <li className={css.item}>Rose Simons : 12345-566-09</li> <button>Delete</button>
-            <li className={css.item}>Rose Simons : 12345-566-09</li> <button>Delete</button>
-            <li className={css.item}>Rose Simons : 12345-566-09</li> <button>Delete</button>
-           
+            {element}
           </ul>
         </PhonebookSection>
       </div>
