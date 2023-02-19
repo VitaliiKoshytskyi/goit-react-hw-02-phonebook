@@ -29,9 +29,16 @@ export class App extends Component {
   
   handleSubmit = (event) => {
     event.preventDefault();
+
+
+    if (this.dublicatedHandler()) {
+       const {name} = this.state
+        return alert (`${name} is already in contacts`)
+      }
+
     this.setState(prevState => {
-      const { name, number,contacts} = prevState
-      
+      const { name, number, contacts } = prevState;
+
       const newContact = {
         id: nanoid(),
         name,
@@ -42,10 +49,45 @@ export class App extends Component {
     })
   }
 
+  dublicatedHandler() {
+    const { name, contacts } = this.state
+    const normalizedName = name.toLowerCase()
+    const isDublicated = contacts.find(item => {
+       return  (item.name.toLowerCase() === normalizedName)
+    })
+    return Boolean (isDublicated)
+     
+  }
+
+  deleteContactHandler(id) {
+    this.setState(prevState => {
+      // console.log(prevState)
+      const arrWithDeletedContact =  prevState.contacts.filter(item => item.id !==id)
+      return {
+        contacts:arrWithDeletedContact
+      }
+    })
+    
+  }
+
+  filterContactsHandler() {
+    const { filter, contacts } = this.state
+    if (filter === '') {
+      return contacts
+    }
+    const normalizedFilter = filter.toLowerCase()
+    const filteredArr = contacts.filter(item => {
+      return item.name.toLowerCase().includes(normalizedFilter)
+    })
+    return filteredArr
+  }
 
   render() {
-const {contacts,name,number}=this.state
-    const element = contacts.map(item => <li key={item.id} className={css.item}>{item.name} : { item.number} <button>Delete</button></li> )
+    const {  name, number } = this.state
+    
+const contacts = this.filterContactsHandler()
+    const element = contacts.map(item => <li key={item.id} className={css.item}>{item.name} : {item.number}
+      <button onClick={() => this.deleteContactHandler(item.id)}>Delete</button></li>)
     return (
       <div className={css.App}>
         <PhonebookSection title="Phonebook">
@@ -79,7 +121,7 @@ const {contacts,name,number}=this.state
         <PhonebookSection title="Contacts">
           <div>
               <p>Find contacts by name</p>
-          <input/>
+          <input name='filter' onChange={this.handleChange}/>
           </div>
           <ul className={css.list}>
             {element}
