@@ -2,7 +2,7 @@
 
 
 import css from './Filter.module.css'
-// import PropTypes from 'prop-types'
+import PropTypes from 'prop-types'
 
 
 const Filter = ({name, onChange}) => {
@@ -12,3 +12,8 @@ const Filter = ({name, onChange}) => {
 }
 
 export default Filter;
+
+Filter.propTypes = {
+    onChange: PropTypes.func.isRequired,
+    name:PropTypes.string.isRequired
+};

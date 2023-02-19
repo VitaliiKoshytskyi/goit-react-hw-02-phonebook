@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types'
+
 
 
 import ContactItem from "./ContactItem/ContactItem";
@@ -24,3 +26,11 @@ const ContactList = ({items =[], deleteContactHandler}) => {
 }
 
 export default ContactList
+
+ContactList.propTypes = {
+  items: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+    })
+  ),
+};

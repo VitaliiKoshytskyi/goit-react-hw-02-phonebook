@@ -81,14 +81,12 @@ export class App extends Component {
       <div className={css.App}>
         <h1 className={css.phonebook}>Phonebook</h1>
         <ContactFrom onSubmit={this.addContactHandler} />
-        
-           <h2 className={css.contacts}>Contacts</h2>
+        <h2 className={css.contacts}>Contacts</h2>
         <p className={css.text}>Find contacts by name</p>
         <Filter name={filter} onChange={this.filterHandlerByEvent} />
         <ContactList
           items={contacts}
-          deleteContactHandler={this.deleteContactHandler} />
-       
+          deleteContactHandler={this.deleteContactHandler}/>
       </div>
     );
   }
