@@ -1,7 +1,5 @@
 import { Component } from 'react';
-
 import { nanoid } from 'nanoid';
-
 import ContactList from './ContactList/ContactList';
 import ContactFrom from './ContactForm/ContactForm';
 import Filter from './Filter/Filter';
@@ -35,7 +33,6 @@ export class App extends Component {
       return { contacts: [...contacts, newContact] };
     });
   };
-
   dublicatedHandler({ name }) {
     const { contacts } = this.state;
     const normalizedName = name.toLowerCase();
@@ -44,7 +41,6 @@ export class App extends Component {
     });
     return Boolean(isDublicated);
   }
-
   deleteContactHandler = id => {
     this.setState(prevState => {
       const arrWithDeletedContact = prevState.contacts.filter(
@@ -55,7 +51,6 @@ export class App extends Component {
       };
     });
   };
-
   filterContactsHandler = () => {
     const { filter, contacts } = this.state;
 
@@ -68,8 +63,7 @@ export class App extends Component {
     });
     return filteredArr;
   };
-
-  filterHandlerByEvent = e => {
+  onInputChange = e => {
     this.setState({ filter: e.target.value });
   };
 
@@ -83,7 +77,7 @@ export class App extends Component {
         <ContactFrom onSubmit={this.addContactHandler} />
         <h2 className={css.contacts}>Contacts</h2>
         <p className={css.text}>Find contacts by name</p>
-        <Filter name={filter} onChange={this.filterHandlerByEvent} />
+        <Filter name={filter} onChange={this.onInputChange} />
         <ContactList
           items={contacts}
           deleteContactHandler={this.deleteContactHandler}/>
